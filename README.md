@@ -8,7 +8,9 @@
 - 以`json`格式返回.
 - 语料库来源于网络,明文形式存储在项目中.
 # 注意
-该接口**未设置**外网访问,因此请将该项目和hexo博客部署于同一台服务器.
+TODO:把5000端口开了
+# CORS的解决
+参考https://blog.csdn.net/lovebyz/article/details/52584551
 # 返回格式
 Fluid读取slogan的配置规范见https://fluid-dev.github.io/hexo-fluid-docs/guide/#slogan-%E6%89%93%E5%AD%97%E6%9C%BA
 
