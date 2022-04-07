@@ -1,39 +1,86 @@
 # Random_Latin
 基于Flask的一个博客自用的随机拉丁文返回api.仅供自家博客使用，没有任何优化。
 语料来源于维基百科,知乎等.
-# 概述
-使用REST接口创建一个基于WSGI标准（PEP 3333）的很小的库.该接口通常都是服务于普通的HTTP请求,但是跟那些功能完整的网站相比,通常只需要处理数据.
+
 # 主要功能
-- 对每个请求返回一个随机的拉丁格言.
+- 对每个请求返回一个随机的拉丁格言及翻译.
 - 以`json`格式返回.
-- 语料库来源于网络,明文形式存储在项目中.
-# 注意
-TODO:把5000端口开了
-# CORS的解决
-参考https://blog.csdn.net/lovebyz/article/details/52584551
-# 返回格式
+- 语料库来源于网络,明文形式存储在项目中.可自定义
+# 示例
 Fluid读取slogan的配置规范见https://fluid-dev.github.io/hexo-fluid-docs/guide/#slogan-%E6%89%93%E5%AD%97%E6%9C%BA
 
 客户端使用`GET`方法访问URL并解析返回json结果.
 
-设计的返回格式应为:
 ```json
 {
-    "status":"",
-    "timestamp":"",
-    "content":""
+"content": "Forti nihil difficile \"力克万难\"\n",
+"lines": 19,
+"timestamp": 1649347413
 }
 ```
-# yaml配置
+
+# 部署方式
+可以部署在任意位置,但要注意开放5000端口.
+
+常规部署:通过`virtualenv`进行部署.这种部署方式不能持续驻留后台,仅供测试用.
+
+```bash
+#./
+virtualenv flask
+flask/bin/pip install flask
+chmod c+x random_latin.py
+./random.py
+```
+
+持久化部署:使用`pm2`配合常规部署方式实现持久化.最好根据自身路径检查修改.
+
+编写`random_latin_config.yml`文件:
+
+```yaml
+# app.yml
+
+name: random_latin #your-app-name-in-pm2
+script: ./random_latin.py #/path/to/your/random_latin.py
+interpreter: /path/to/repo/randomlatin/flask/bin/python3 #/path/to/flask_venv/bin/python
+cwd: #/current/working/directory = /path/to/your/random_latin.py
+# 配置了cwd之后, script和interpreter可以采取相对路径, pm2会自动的切换到cwd目录再执行启动应用的操作
+```
+然后使用下面的指令持久化部署:
+```bash
+pm2 start ./randomlatin/random_latin_config.yml
+```
+WARNING:最好使用绝对路径.
+
+# Fluid下的配置修改
+其余hexo主题请参考官方文档.
 ```yaml
 index:
   slogan:
     enable: true
-    text: 这是一条 Slogan
+    text: api失效时显示该文字
     api:
       enable: true
-      url: https://api.example.com/random_latin
+      url: https://[your_ip_or_host]:5000/random_latin/
       method: "GET"
       headers: {}
       keys: ["content"]
 ```
+# 注意
+- TODO:把5000端口开了
+- 没有负载均衡,建议自己部署自己使用.如果qps过高可能会出现未预计的问题.
+- 注意路径问题;必要时可以自己改路径,也可以编写脚本把路径切过去.
+# CORS的解决
+参考https://blog.csdn.net/lovebyz/article/details/52584551
+# 文件读取
+使用`linecache`.详见https://docs.python.org/zh-cn/3/library/linecache.html
+文件行数的统计参考https://www.jianshu.com/p/a9085ff67755 ,在大文件下依然保持较好的性能.
+
+
+
+# 自定语料库
+TBD
+
+# 参考
+http://www.pythondoc.com/flask-restful/first.html
+https://cloud.tencent.com/developer/article/1181382
+https://www.jianshu.com/p/67d888601a26
