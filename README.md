@@ -80,6 +80,8 @@ index:
 
 每行载入一句,不能有空行或者奇怪的字符.
 
+可以热添加,无需重新启动服务.
+
 ## 参考
 http://www.pythondoc.com/flask-restful/first.html
 https://cloud.tencent.com/developer/article/1181382
