@@ -10,7 +10,7 @@
 - 以`json`格式返回.
 - 语料库来源于网络,明文形式存储在项目中.可自定义
 ## 示例
-Fluid读取slogan的配置规范见https://fluid-dev.github.io/hexo-fluid-docs/guide/#slogan-%E6%89%93%E5%AD%97%E6%9C%BA
+Fluid读取slogan的配置规范见[Fluid官方文档](https://fluid-dev.github.io/hexo-fluid-docs/guide/#slogan-%E6%89%93%E5%AD%97%E6%9C%BA)
 
 客户端使用`GET`方法访问URL并解析返回json结果.
 
