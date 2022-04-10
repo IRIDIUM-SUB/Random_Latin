@@ -33,6 +33,7 @@ def sendresponse():
         "content": "Get Motto Failed. Check your source file."
     }
     result_text['content'],result_text['lines'],result_text['timestamp']=genlatin()
+    print(result_text['content'])
     rst=make_response(result_text)
     
     rst.headers['Access-Control-Allow-Origin'] = '*'  # 处理CORS限制
